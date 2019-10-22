@@ -3,6 +3,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using Datagrams.AbstractTypes;
 using tools;
 
 public class RecievedData
@@ -47,6 +48,7 @@ class UdpListener : UdpBase
 	{
 		_listenOn = endpoint;
 		Client = new UdpClient(_listenOn);
+		//Client.m
 	}
 
 	public void Reply(string message, IPEndPoint endpoint)
@@ -84,7 +86,7 @@ class Program
 	{
 		//create a new server
 		var server = new UdpListener();
-
+		
 		//start listening for messages and copy the messages back to the client
 		Task.Factory.StartNew(async () =>
 		{
@@ -103,13 +105,16 @@ class Program
 				{
 					Console.Write("StartToListen");
 					var received = await server.Receive();
-				 	var transformRequest = BinarySerializer.Deserialize<Datagrams.Datagram.TestTransformRequest>(received.Datagram);
-					server.Reply("copy " + transformRequest.Message + "", received.EndPoint);
-					Console.Write("copy " + " msg: " + transformRequest.Message + "\n" +
-								  "position: " + transformRequest.Position.x + " " + transformRequest.Position.y +" " + transformRequest.Position.z + "\n" +
-								  "rotation: " + transformRequest.Rotation.x + " " + transformRequest.Rotation.y + " "+transformRequest.Rotation.z + " " +transformRequest.Rotation.w + "\n");
-					if (transformRequest.Message == "quit")
-						break;
+				 	var transformRequest = BinarySerializer.Deserialize<Datagrams.AbstractTypes.AbstractNumberedDatagram>(received.Datagram);
+					Console.Write(" "+ transformRequest.GetDatagramId()+"\n");
+					//server.Reply("copy " + transformRequest.Message + "", received.EndPoint);
+					//Console.Write("copy " + " msg: " + transformRequest.Message + "\n" +
+					//			  "position: " + transformRequest.Position.x + " " + transformRequest.Position.y +" " + transformRequest.Position.z + "\n" +
+					//			  "rotation: " + transformRequest.Rotation.x + " " + transformRequest.Rotation.y + " "+transformRequest.Rotation.z + " " +transformRequest.Rotation.w + "\n");
+					//if (transformRequest.Message == "quit")
+						//break;
+
+
 				}
 				catch (Exception e)
 				{
