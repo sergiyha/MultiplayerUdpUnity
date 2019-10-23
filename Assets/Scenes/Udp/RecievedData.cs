@@ -1,7 +1,9 @@
-﻿using System.Net;
+﻿using System;
+using System.Collections.Generic;
+using System.Net;
 
 public class RecievedData
 {
 	public byte[] Datagram;
-	public IPEndPoint EndPoint;
+	public Int32 HashCode;
 }

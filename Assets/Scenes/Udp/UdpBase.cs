@@ -17,7 +17,7 @@ abstract class UdpBase
 		return new RecievedData()
 		{
 			Datagram = result.Buffer,
-			EndPoint= result.RemoteEndPoint
+			HashCode = Client.GetHashCode()
 		};
 	}
 }

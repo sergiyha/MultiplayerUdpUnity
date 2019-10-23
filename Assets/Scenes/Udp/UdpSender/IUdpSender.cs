@@ -15,9 +15,8 @@ public abstract class AbstractUdpSender<T> : IUdpSender
 	public abstract void Connect();
 	public abstract void Disconnect();
 
-
 	public void Send()
 	{
-		throw new NotImplementedException();
+		
 	}
 }

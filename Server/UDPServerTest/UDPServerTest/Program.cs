@@ -4,6 +4,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using Datagrams.AbstractTypes;
+using Datagrams.CustomTypes;
 using tools;
 
 public class RecievedData
@@ -57,6 +58,11 @@ class UdpListener : UdpBase
 		Client.Send(datagram, datagram.Length, endpoint);
 	}
 
+	public void Reply(byte[] bytes, IPEndPoint endpoint)
+	{
+		Client.Send(bytes, bytes.Length, endpoint);
+	}
+
 }
 
 //Client
@@ -92,22 +98,20 @@ class Program
 		{
 			while (true)
 			{
-				//while (true)
-				//{
-				//	Console.Write("startLister");
-				//	var received = await server.Receive();
-				//	Console.Write("recieve: " + received.Datagram.Length);
-				//	server.Reply("copy " + received.Datagram.Length, received.EndPoint);
-				//	if (received.Datagram.ToString() == "quit")
-				//		break;
-				//}
 				try
 				{
-					Console.Write("StartToListen");
+					Console.Write("StartToListen" + "\n");
 					var received = await server.Receive();
-				 	var transformRequest = BinarySerializer.Deserialize<Datagrams.AbstractTypes.AbstractNumberedDatagram>(received.Datagram);
-					Console.Write(" "+ transformRequest.GetDatagramId()+"\n");
-					//server.Reply("copy " + transformRequest.Message + "", received.EndPoint);
+				 	var recievedDatagram = BinarySerializer.Deserialize<Datagrams.AbstractTypes.AbstractDatagram>(received.Datagram);
+					Console.Write("Someone try to connect" + "\n");
+					if (recievedDatagram.GetDatagramId() == RequestIdentifiers.Connect)
+					{
+						
+						Console.Write("Someone is connected " + received.EndPoint.Address + " " + received.EndPoint.Port + "\n");
+						server.Reply(BinarySerializer.Serialize(new ConnectedRequestBody(){Description = "connected"}), received.EndPoint);
+					}
+
+					//Console.Write(" "+ recievedDatagram.GetDatagramId()+"\n");
 					//Console.Write("copy " + " msg: " + transformRequest.Message + "\n" +
 					//			  "position: " + transformRequest.Position.x + " " + transformRequest.Position.y +" " + transformRequest.Position.z + "\n" +
 					//			  "rotation: " + transformRequest.Rotation.x + " " + transformRequest.Rotation.y + " "+transformRequest.Rotation.z + " " +transformRequest.Rotation.w + "\n");
