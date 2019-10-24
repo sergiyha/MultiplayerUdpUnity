@@ -3,7 +3,7 @@
 namespace Datagrams.CustomTypes
 {
 	[Serializable]
-	public class Vector3
+	public struct Vector3
 	{
 		public float x;
 		public float y;
@@ -18,7 +18,7 @@ namespace Datagrams.CustomTypes
 	}
 
 	[Serializable]
-	public class Vector4
+	public struct Vector4
 	{
 		public float x;
 		public float y;

@@ -1,4 +1,5 @@
 ﻿using System;
+using Datagrams.Datagram;
 
 namespace Datagrams.CustomTypes
 {
@@ -35,6 +36,16 @@ namespace Datagrams.CustomTypes
 		public override RequestIdentifiers GetDatagramId()
 		{
 			return RequestIdentifiers.Disconnected;
+		}
+	}
+
+	[Serializable]
+	public class UserInformationRequestBody : RequestBodyBase
+	{
+		public UsersInfo[] UsersInformation;
+		public override RequestIdentifiers GetDatagramId()
+		{
+			return RequestIdentifiers.UsersInfo;
 		}
 	}
 }

@@ -5,15 +5,18 @@ using Datagrams.CustomTypes;
 namespace Datagrams.Datagram
 {
 	[Serializable]
-	public class TestTransformRequest : AbstractDatagram
+	public struct TransformDatagram 
 	{
 		public string Message;
 		public Vector3 Position;
 		public Vector4 Rotation;
-
-		public override RequestIdentifiers GetDatagramId()
-		{
-			throw new NotImplementedException();
-		}
 	}
+
+	[Serializable]
+	public struct UsersInfo
+	{
+		public int UserIdentifier;
+		public TransformDatagram Transform;
+	}
+
 }

@@ -5,6 +5,7 @@
 		Connect,
 		Connected,
 		Disconnect,
-		Disconnected
+		Disconnected,
+		UsersInfo,
 	}
 }

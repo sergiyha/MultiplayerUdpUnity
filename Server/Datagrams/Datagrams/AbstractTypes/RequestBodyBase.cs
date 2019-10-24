@@ -7,7 +7,7 @@ namespace Datagrams.CustomTypes
 	public abstract class RequestBodyBase : AbstractDatagram
 	{
 		public string Description;
-		//public string
+		public string UserId;
 	}
 
 
