@@ -5,22 +5,24 @@ using Datagrams.AbstractTypes;
 using Datagrams.CustomTypes;
 using tools;
 
-public class UdpConnector
+public class UdpUserConnector
 {
 	private string _hostname = "127.0.0.1";
 	private int _port = 32123;
 	private string _connectToken = "connect";
 
 	private UdpClient _client;
-	private Action<UdpClient> _onConnectionComplete;
+	private Action<UdpClient, UserConnectedRequestBody> _onConnectionComplete;
+	private int _userId;
 
-	public void Connect( Action<UdpClient> onConnectionComplete)
+	public void Connect(int userId, Action<UdpClient, UserConnectedRequestBody> onConnectionComplete)
 	{
+		_userId = userId;
 		_client = new UdpClient();
 		_onConnectionComplete = onConnectionComplete;
 		_client.Connect(_hostname, _port);
 
-		var connectionObjBinary = BinarySerializer.Serialize(new ConnectRequestbody() { Description = _connectToken });
+		var connectionObjBinary = BinarySerializer.Serialize(new UserConnectRequestbody() { Description = _connectToken, UserId = _userId.ToString() });
 		_client.Send(connectionObjBinary, connectionObjBinary.Length);
 
 		Task.Factory.StartNew(WaitingForConnect);
@@ -36,9 +38,11 @@ public class UdpConnector
 				if (received.Buffer != null)
 				{
 					var absReq = BinarySerializer.Deserialize<AbstractDatagram>(received.Buffer);
-					if (absReq.GetDatagramId() == RequestIdentifiers.Connected)
+
+					var userId = int.Parse((absReq as RequestBodyBase)?.UserId ?? throw new NullReferenceException());
+					if (absReq.GetDatagramId() == RequestIdentifiers.UserConnected && absReq is UserConnectedRequestBody userConnectedPayload && _userId == userId)
 					{
-						_onConnectionComplete?.Invoke(_client);
+						_onConnectionComplete?.Invoke(_client, userConnectedPayload);
 						break;
 					}
 				}
@@ -46,6 +50,7 @@ public class UdpConnector
 			catch (Exception ex)
 			{
 				UnityEngine.Debug.LogError(ex);
+				await WaitingForConnect();
 			}
 		}
 	}

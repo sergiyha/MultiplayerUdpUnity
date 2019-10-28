@@ -2,10 +2,12 @@
 {
 	public enum RequestIdentifiers
 	{
-		Connect,
-		Connected,
-		Disconnect,
-		Disconnected,
+		UserConnect,
+		UserConnected,
+		UserDisconnect,
+		UserDisconnected,
+		PlayerConnected,
+		PlayerDisconnected,
 		UsersInfo,
 	}
 }

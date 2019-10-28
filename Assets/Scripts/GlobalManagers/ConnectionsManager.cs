@@ -21,14 +21,14 @@ public class ConnectionsManager : MonoBehaviour
 	{
 		switch (datagram.GetDatagramId())
 		{
-			case RequestIdentifiers.Connected:
+			case RequestIdentifiers.PlayerConnected:
 			{
 				var id = (datagram as RequestBodyBase).UserId;
 				RegisterConnection();
 
 				break;
 			}
-			case RequestIdentifiers.Disconnect:
+			case RequestIdentifiers.PlayerDisconnected:
 				break;
 			default:
 				throw new ArgumentOutOfRangeException();

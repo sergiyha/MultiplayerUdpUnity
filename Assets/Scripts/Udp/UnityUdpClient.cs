@@ -34,7 +34,7 @@ public class UnityUdpClient : MonoBehaviour
 
 	private void ClientSend()
 	{
-		new UdpConnector().Connect((client) => { Debug.Log("seems like connected"); });
+		//new UdpUserConnector().Connect((client) => { Debug.Log("seems like connected"); });
 
 
 		//var transformObject = new TestTransformRequest()
