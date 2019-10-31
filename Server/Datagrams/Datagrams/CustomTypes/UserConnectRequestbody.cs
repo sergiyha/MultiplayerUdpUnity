@@ -6,17 +6,20 @@ namespace Datagrams.CustomTypes
 	[Serializable]
 	public class UserConnectRequestbody : RequestBodyBase
 	{
+		public int UserIdentifier;
 		public override RequestIdentifiers GetDatagramId()
 		{
 			return RequestIdentifiers.UserConnect;
 		}
 	}
 
+	/// <summary>
+	/// From server only
+	/// </summary>
 	[Serializable]
 	public class UserConnectedRequestBody : RequestBodyBase
 	{
-		public UsersInfo[] UsersInformation;
-		public Vector3 Position;
+		public UsersInfo UserInformation;
 		public override RequestIdentifiers GetDatagramId()
 		{
 			return RequestIdentifiers.UserConnected;
@@ -44,7 +47,7 @@ namespace Datagrams.CustomTypes
 	[Serializable]
 	public class PlayerConnectedRequestBody : RequestBodyBase
 	{
-		public Vector3 Position;
+		public UsersInfo UserInformation;
 		public override RequestIdentifiers GetDatagramId()
 		{
 			return RequestIdentifiers.PlayerConnected;
@@ -52,8 +55,19 @@ namespace Datagrams.CustomTypes
 	}
 
 	[Serializable]
+	public class ConcreteUserInformation : RequestBodyBase
+	{
+		public UsersInfo UserInformation;
+		public override RequestIdentifiers GetDatagramId()
+		{
+			return RequestIdentifiers.ConcreteUserInformation;
+		}
+	}
+
+	[Serializable]
 	public class PlayerDisconnectedRequestBody : RequestBodyBase
 	{
+		public int UserIdentifier;
 		public override RequestIdentifiers GetDatagramId()
 		{
 			return RequestIdentifiers.PlayerDisconnected;
@@ -61,7 +75,7 @@ namespace Datagrams.CustomTypes
 	}
 
 	[Serializable]
-	public class UserInformationRequestBody : RequestBodyBase
+	public class UsersInformationRequestBody : RequestBodyBase
 	{
 		public UsersInfo[] UsersInformation;
 		public override RequestIdentifiers GetDatagramId()

@@ -9,5 +9,6 @@
 		PlayerConnected,
 		PlayerDisconnected,
 		UsersInfo,
+		ConcreteUserInformation
 	}
 }

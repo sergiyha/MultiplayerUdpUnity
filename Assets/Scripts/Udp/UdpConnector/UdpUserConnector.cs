@@ -22,7 +22,7 @@ public class UdpUserConnector
 		_onConnectionComplete = onConnectionComplete;
 		_client.Connect(_hostname, _port);
 
-		var connectionObjBinary = BinarySerializer.Serialize(new UserConnectRequestbody() { Description = _connectToken, UserId = _userId.ToString() });
+		var connectionObjBinary = BinarySerializer.Serialize(new UserConnectRequestbody() { Description = _connectToken, UserId = _userId.ToString(),UserIdentifier = _userId });
 		_client.Send(connectionObjBinary, connectionObjBinary.Length);
 
 		Task.Factory.StartNew(WaitingForConnect);
@@ -39,8 +39,9 @@ public class UdpUserConnector
 				{
 					var absReq = BinarySerializer.Deserialize<AbstractDatagram>(received.Buffer);
 
-					var userId = int.Parse((absReq as RequestBodyBase)?.UserId ?? throw new NullReferenceException());
-					if (absReq.GetDatagramId() == RequestIdentifiers.UserConnected && absReq is UserConnectedRequestBody userConnectedPayload && _userId == userId)
+					if (absReq.GetDatagramId() == RequestIdentifiers.UserConnected &&
+					    absReq is UserConnectedRequestBody userConnectedPayload &&
+					    userConnectedPayload.UserInformation.UserIdentifier == _userId)
 					{
 						_onConnectionComplete?.Invoke(_client, userConnectedPayload);
 						break;

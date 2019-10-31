@@ -19,12 +19,12 @@ public class DataUpdaterManger : IDataUpdaterManager
 		switch (datagram.GetDatagramId())
 		{
 			case RequestIdentifiers.UsersInfo:
-				ManageUsersInfo(datagram as UserInformationRequestBody);
+				ManageUsersInfo(datagram as UsersInformationRequestBody);
 				break;
 		}
 	}
 
-	private void ManageUsersInfo(UserInformationRequestBody usersInformation)
+	private void ManageUsersInfo(UsersInformationRequestBody usersInformation)
 	{
 		if (usersInformation != null)
 		{
