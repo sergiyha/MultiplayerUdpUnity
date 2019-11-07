@@ -16,6 +16,12 @@ namespace Udp.UdpConnector
 		public UdpDataListener(UdpClient client)
 		{
 			_client = client;
+			ExeListen();
+		}
+
+		public void Stop()
+		{
+			_client = null;
 		}
 
 		private void ExeListen()

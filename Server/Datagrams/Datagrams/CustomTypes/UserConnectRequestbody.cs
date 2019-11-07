@@ -19,7 +19,7 @@ namespace Datagrams.CustomTypes
 	[Serializable]
 	public class UserConnectedRequestBody : RequestBodyBase
 	{
-		public UsersInfo UserInformation;
+		public UserInfo UserInformation;
 		public override RequestIdentifiers GetDatagramId()
 		{
 			return RequestIdentifiers.UserConnected;
@@ -47,7 +47,7 @@ namespace Datagrams.CustomTypes
 	[Serializable]
 	public class PlayerConnectedRequestBody : RequestBodyBase
 	{
-		public UsersInfo UserInformation;
+		public UserInfo UserInformation;
 		public override RequestIdentifiers GetDatagramId()
 		{
 			return RequestIdentifiers.PlayerConnected;
@@ -57,7 +57,7 @@ namespace Datagrams.CustomTypes
 	[Serializable]
 	public class ConcreteUserInformation : RequestBodyBase
 	{
-		public UsersInfo UserInformation;
+		public UserInfo UserInformation;
 		public override RequestIdentifiers GetDatagramId()
 		{
 			return RequestIdentifiers.ConcreteUserInformation;
@@ -77,7 +77,7 @@ namespace Datagrams.CustomTypes
 	[Serializable]
 	public class UsersInformationRequestBody : RequestBodyBase
 	{
-		public UsersInfo[] UsersInformation;
+		public UserInfo[] UsersInformation;
 		public override RequestIdentifiers GetDatagramId()
 		{
 			return RequestIdentifiers.UsersInfo;

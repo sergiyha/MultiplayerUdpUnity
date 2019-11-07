@@ -6,28 +6,32 @@ using Udp.UdpConnector;
 using UnityEngine;
 using Zenject;
 
-public class ConnectionsManager : MonoBehaviour
+public class ConnectionsManager : MonoBehaviour, IConnectionManager
 {
-
 	[Inject] private IDataUpdaterManager _updateManager;
+	private UdpDataListener _udpListener;
 
-	public void ListenTheConnection(UdpClient client)
+	public void StartListening(UdpClient client)
 	{
-		new UdpDataListener(client).OnDataRetrieved += OnDataRetrieved;
+		_udpListener = new UdpDataListener(client);
+		_udpListener.OnDataRetrieved += OnDataRetrieved;
 	}
 
+	public void StopListening()
+	{
+		_udpListener.Stop();
+	}
 
 	private void OnDataRetrieved(AbstractDatagram datagram)
 	{
 		switch (datagram.GetDatagramId())
 		{
 			case RequestIdentifiers.PlayerConnected:
-			{
-				var id = (datagram as RequestBodyBase).UserId;
-				RegisterConnection();
-
-				break;
-			}
+				{
+					var id = (datagram as RequestBodyBase).UserId;
+					RegisterConnection();
+					break;
+				}
 			case RequestIdentifiers.PlayerDisconnected:
 				break;
 			default:
@@ -46,6 +50,7 @@ public class ConnectionsManager : MonoBehaviour
 		//createUserEtc
 		//InitPrefab
 	}
+
 
 
 }

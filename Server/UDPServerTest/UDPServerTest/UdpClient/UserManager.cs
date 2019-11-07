@@ -20,7 +20,7 @@ namespace UDPServerTest.UdpClient
 			}
 			else
 			{
-				_usersData.Add(payload.UserIdentifier, new UserInfoContainer {/*there must be random*/ EndPoint = endPoint,UsersInfo = new UsersInfo()
+				_usersData.Add(payload.UserIdentifier, new UserInfoContainer {/*there must be random*/ EndPoint = endPoint,UsersInfo = new UserInfo()
 				{
 					UserIdentifier = payload.UserIdentifier
 
@@ -63,7 +63,7 @@ namespace UDPServerTest.UdpClient
 	public class UserInfoContainer
 	{
 		public IPEndPoint EndPoint;
-		public UsersInfo UsersInfo;
+		public UserInfo UsersInfo;
 	}
 
 

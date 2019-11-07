@@ -5,7 +5,7 @@ using Zenject;
 public abstract class UserMonoView : MonoBehaviour, IUserMonoView
 {
 	protected abstract void ApplyUserInfo();
-	protected UsersInfo UserData;
+	protected UserInfo UserData;
 
 	protected int UserId;
 	public virtual void Init(int userId)
@@ -26,4 +26,6 @@ public abstract class UserMonoView : MonoBehaviour, IUserMonoView
 	{
 		_tickableManager.Register(ApplyUserInfo);
 	}
+
+	
 }

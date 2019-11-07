@@ -13,7 +13,7 @@ namespace Datagrams.Datagram
 	}
 
 	[Serializable]
-	public struct UsersInfo
+	public struct UserInfo
 	{
 		public int UserIdentifier;
 		public TransformDatagram Transform;

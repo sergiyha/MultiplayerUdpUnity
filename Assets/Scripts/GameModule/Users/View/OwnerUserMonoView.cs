@@ -1,11 +1,12 @@
 ﻿using Datagrams.Datagram;
+using Zenject;
 
 public class OwnerUserMonoView : UserMonoView
 {
 
 	protected override void ApplyUserInfo()
 	{
-		UserData = new UsersInfo()
+		UserData = new UserInfo()
 		{
 			UserIdentifier = UserId,
 			Transform = new TransformDatagram()
@@ -26,5 +27,9 @@ public class OwnerUserMonoView : UserMonoView
 				),
 			}
 		};
+	}
+
+	public class Factory : PlaceholderFactory<OwnerUserMonoView>
+	{
 	}
 }

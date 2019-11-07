@@ -5,6 +5,7 @@ using Zenject;
 public class GameManager : IGameManager
 {
 	[Inject] private IUserManager _userManager;
+	[Inject] private ITickableManager _tickManager;
 
 	public void StartGame()
 	{

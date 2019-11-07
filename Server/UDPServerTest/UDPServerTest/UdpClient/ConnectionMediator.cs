@@ -55,7 +55,7 @@ namespace UDPServerTest.UdpClient
 							var userInfoRequestBody = new UsersInformationRequestBody()
 							{
 								UserId = userInfo.UsersInfo.UserIdentifier.ToString(),
-								UsersInformation = new UsersInfo[usersInformation.Count - 1]
+								UsersInformation = new UserInfo[usersInformation.Count - 1]
 							};
 
 
@@ -121,7 +121,7 @@ namespace UDPServerTest.UdpClient
 							{
 								var id = ((UserConnectRequestbody) datagram).UserIdentifier;
 								_listener.Send
-									(BinarySerializer.Serialize(new UserConnectedRequestBody() { UserInformation = new UsersInfo() { UserIdentifier = id } }),
+									(BinarySerializer.Serialize(new UserConnectedRequestBody() { UserInformation = new UserInfo() { UserIdentifier = id } }),
 									ebdPoint);
 								_userManager.AddUser((UserConnectRequestbody) datagram, ebdPoint);
 								break;
@@ -135,7 +135,7 @@ namespace UDPServerTest.UdpClient
 								break;
 							}
 						}
-					case RequestIdentifiers.UsersInfo:
+					case RequestIdentifiers.ConcreteUserInformation:
 						{
 							_userManager.UpdateUser(datagram as ConcreteUserInformation);
 							break;
