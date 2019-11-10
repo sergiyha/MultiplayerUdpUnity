@@ -2,7 +2,7 @@
 
 public class UserManager : IUserManager
 {
-	private UserModel _userModel;
+	private UserModel _userModel = null;
 
 
 	public void CreateUser()
@@ -13,12 +13,17 @@ public class UserManager : IUserManager
 		};
 	}
 
+	public void DeleteUser()
+	{
+		_userModel = null;
+	}
+
 	public UserModel GetUserModel()
 	{
 		return _userModel;
 	}
 
-	public UdpClient GetUserTcpClient()
+	public UdpClient GetUserUdpClient()
 	{
 		return _userModel.UdpClient;
 	}
@@ -26,6 +31,11 @@ public class UserManager : IUserManager
 	public void SetUserUdp(UdpClient client)
 	{
 		_userModel.UdpClient = client;
+	}
+
+	public bool UserExist()
+	{
+		return _userModel != null;
 	}
 }
 

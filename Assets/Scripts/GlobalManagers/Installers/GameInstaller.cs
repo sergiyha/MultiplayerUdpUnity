@@ -2,7 +2,7 @@
 using UnityEngine;
 using Zenject;
 
-public class MonoInstalelr : MonoInstaller
+public class GameInstaller : MonoInstaller
 {
 	[SerializeField]
 	private MonoTickerManager MonoTickerManager;
@@ -22,6 +22,12 @@ public class MonoInstalelr : MonoInstaller
 		Container.Bind<IGameManager>().To<GameManager>().AsSingle().NonLazy();
 		Container.Bind<ITickableManager>().FromInstance(MonoTickerManager).AsSingle();
 		Container.Bind<IDataUpdaterManager>().To<DataUpdaterManger>().AsSingle().NonLazy();
+		Container.Bind<IUserManager>().To<UserManager>().AsSingle().NonLazy();
+		Container.Bind<IPlayersSpawnManager>().To<PlayersSpawnManager>().AsSingle().NonLazy();
+		Container.Bind<IUserDataGatherManager>().To<UserDataGatherManager>().AsSingle().NonLazy();
+		Container.Bind<IConnectionManager>().To<ConnectionsManager>().AsSingle().NonLazy();
+
+
 		Container.Bind<StartManager>().FromInstance(StartManager);
 
 		Container.BindFactory<ConnectedUserMonoView, ConnectedUserMonoView.Factory>().FromComponentInNewPrefab(ConnectedUserMonoView);

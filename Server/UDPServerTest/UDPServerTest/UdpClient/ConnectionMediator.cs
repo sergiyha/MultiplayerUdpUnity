@@ -89,7 +89,7 @@ namespace UDPServerTest.UdpClient
 				try
 				{
 					var received = await _listener.Receive();
-					var receivedDatagram = BinarySerializer.Deserialize<Datagrams.AbstractTypes.AbstractDatagram>(received.Datagram);
+					var receivedDatagram = BinarySerializer.Deserialize<AbstractDatagram>(received.Datagram);
 					ManageReceivedData(receivedDatagram, received.EndPoint);
 				}
 				catch (Exception e)
@@ -109,7 +109,7 @@ namespace UDPServerTest.UdpClient
 			Task.Run(() => { FilterRequest(datagram, endPoint); });
 		}
 
-		public void FilterRequest(AbstractDatagram datagram, IPEndPoint ebdPoint)
+		public void FilterRequest(AbstractDatagram datagram, IPEndPoint endPoint)
 		{
 			lock (userManagerLock)
 			{
@@ -122,8 +122,9 @@ namespace UDPServerTest.UdpClient
 								var id = ((UserConnectRequestbody) datagram).UserIdentifier;
 								_listener.Send
 									(BinarySerializer.Serialize(new UserConnectedRequestBody() { UserInformation = new UserInfo() { UserIdentifier = id } }),
-									ebdPoint);
-								_userManager.AddUser((UserConnectRequestbody) datagram, ebdPoint);
+									endPoint);
+								Console.Write("User Connected id: " + id +"\n" );
+								_userManager.AddUser((UserConnectRequestbody) datagram, endPoint);
 								break;
 							}
 						}

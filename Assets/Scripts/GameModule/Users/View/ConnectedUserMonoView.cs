@@ -5,10 +5,11 @@ using Zenject;
 public class ConnectedUserMonoView : UserMonoView, IUpdatableUserInfo<UserInfo>
 {
 	[Inject] private IDataUpdaterManager _updateManager;
-	public override void Init(int userId)
+
+	public override void Init(UserInfo userInfo)
 	{
-		base.Init(userId);
-		_updateManager.AddUpdatable(userId, this);
+		base.Init(userInfo);
+		_updateManager.AddUpdatable(userInfo.UserIdentifier, this);
 	}
 
 	public void UpdateData(UserInfo info)

@@ -20,6 +20,7 @@ namespace Datagrams.CustomTypes
 	public class UserConnectedRequestBody : RequestBodyBase
 	{
 		public UserInfo UserInformation;
+		public UserInfo[] ExistedPlayersInformation;
 		public override RequestIdentifiers GetDatagramId()
 		{
 			return RequestIdentifiers.UserConnected;

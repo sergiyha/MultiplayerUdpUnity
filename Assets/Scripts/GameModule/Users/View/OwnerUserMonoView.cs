@@ -3,6 +3,13 @@ using Zenject;
 
 public class OwnerUserMonoView : UserMonoView
 {
+	[Inject] private IUserDataGatherManager _gatherDataManager;
+
+	public override void Init(UserInfo userInfo)
+	{
+		base.Init(userInfo);
+		_gatherDataManager.GatherOn(this);
+	}
 
 	protected override void ApplyUserInfo()
 	{

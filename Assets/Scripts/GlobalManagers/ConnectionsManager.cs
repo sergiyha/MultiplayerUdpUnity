@@ -2,14 +2,20 @@
 using System.Net.Sockets;
 using Datagrams.AbstractTypes;
 using Datagrams.CustomTypes;
+using Datagrams.Datagram;
 using Udp.UdpConnector;
-using UnityEngine;
 using Zenject;
 
-public class ConnectionsManager : MonoBehaviour, IConnectionManager
+public class ConnectionsManager : IConnectionManager
 {
 	[Inject] private IDataUpdaterManager _updateManager;
+
 	private UdpDataListener _udpListener;
+
+	public event Action<UserInfo> PlayerConnected;
+	public event Action<int> PlayerDisconnected;
+
+
 
 	public void StartListening(UdpClient client)
 	{
@@ -28,28 +34,21 @@ public class ConnectionsManager : MonoBehaviour, IConnectionManager
 		{
 			case RequestIdentifiers.PlayerConnected:
 				{
-					var id = (datagram as RequestBodyBase).UserId;
-					RegisterConnection();
+					var userInfo = (datagram as PlayerConnectedRequestBody).UserInformation;
+					PlayerConnected?.Invoke(userInfo);
 					break;
 				}
 			case RequestIdentifiers.PlayerDisconnected:
+				{
+					var id = (datagram as PlayerDisconnectedRequestBody).UserIdentifier;
+					PlayerDisconnected?.Invoke(id);
+				}
 				break;
 			default:
 				throw new ArgumentOutOfRangeException();
 		}
 	}
 
-	private void RegisterConnection()
-	{
-		//createUserEtc
-		//InitPrefab
-	}
-
-	private void UnregisterConnection()
-	{
-		//createUserEtc
-		//InitPrefab
-	}
 
 
 

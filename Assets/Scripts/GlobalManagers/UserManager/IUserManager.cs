@@ -3,9 +3,13 @@
 public interface IUserManager
 {
 	void CreateUser();
+	void DeleteUser();
 
 	UserModel GetUserModel();
 
-	UdpClient GetUserTcpClient();
+	UdpClient GetUserUdpClient();
 	void SetUserUdp(UdpClient client);
+
+	bool UserExist();
+
 }

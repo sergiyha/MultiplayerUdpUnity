@@ -85,11 +85,11 @@ class Program
 		connectionMediator.InjectDependencies(userManager);
 		connectionMediator.StartStreaming();
 
-		Console.Write("Start Server");
+		Console.Write("Start Server\n");
 		string read;
 		do
 		{
-			 read = Console.ReadLine();
+			read = Console.ReadLine();
 		} while (read != "quit");
 
 	}

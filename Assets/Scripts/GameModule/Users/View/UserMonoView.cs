@@ -5,12 +5,15 @@ using Zenject;
 public abstract class UserMonoView : MonoBehaviour, IUserMonoView
 {
 	protected abstract void ApplyUserInfo();
-	protected UserInfo UserData;
+	public UserInfo UserData;
 
 	protected int UserId;
-	public virtual void Init(int userId)
+	public virtual void Init(UserInfo userInfo)
 	{
-		UserId = userId;
+		UserId = userInfo.UserIdentifier;
+		var userTransform = userInfo.Transform;
+		this.transform.position = new Vector3(userTransform.Position.x, userTransform.Position.y, userTransform.Position.z);
+		this.transform.rotation = new Quaternion(userTransform.Rotation.x, userTransform.Rotation.y, userTransform.Rotation.z, userTransform.Rotation.w);
 	}
 
 	private ITickableManager _tickableManager;
@@ -27,5 +30,5 @@ public abstract class UserMonoView : MonoBehaviour, IUserMonoView
 		_tickableManager.Register(ApplyUserInfo);
 	}
 
-	
+
 }

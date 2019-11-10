@@ -1,4 +1,6 @@
-﻿public interface IUserMonoView
+﻿using Datagrams.Datagram;
+
+public interface IUserMonoView
 {
-	void Init(int userId);
+	void Init(UserInfo userId);
 }
