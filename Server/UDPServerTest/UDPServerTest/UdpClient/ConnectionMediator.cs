@@ -50,7 +50,7 @@ namespace UDPServerTest.UdpClient
 						var usersInformation = _userManager.GetUsersData();
 						foreach (var userInfo in usersInformation)
 						{
-							if(usersInformation.Count == 1)continue;
+							if (usersInformation.Count == 1) continue;
 
 							var userInfoRequestBody = new UsersInformationRequestBody()
 							{
@@ -119,12 +119,13 @@ namespace UDPServerTest.UdpClient
 						{
 							lock (connectDisconnectLock)
 							{
-								var id = ((UserConnectRequestbody) datagram).UserIdentifier;
-								_listener.Send
-									(BinarySerializer.Serialize(new UserConnectedRequestBody() { UserInformation = new UserInfo() { UserIdentifier = id } }),
-									endPoint);
-								Console.Write("User Connected id: " + id +"\n" );
-								_userManager.AddUser((UserConnectRequestbody) datagram, endPoint);
+								var id = ((UserConnectRequestbody)datagram).UserIdentifier;
+								var initialUserData = GetInitialUserData(id);
+								_listener.Send(BinarySerializer.Serialize(initialUserData), endPoint);
+								Console.Write("User Connected id: " + id + "\n");
+								PlayerConnectedRequest(initialUserData.UserInformation);
+
+								_userManager.AddUser((UserConnectRequestbody)datagram, endPoint);
 								break;
 							}
 						}
@@ -147,9 +148,48 @@ namespace UDPServerTest.UdpClient
 			}
 		}
 
+		private void PlayerConnectedRequest(UserInfo userInfo)
+		{
+			var usersInformation = _userManager.GetUsersData();
+			foreach (var userData in usersInformation)
+			{
+				var byteData = BinarySerializer.Serialize(new PlayerConnectedRequestBody()
+				{
+					UserInformation = userInfo
+				});
 
+				_listener.Send(byteData, userData.EndPoint);
+			}
+			Console.Write(usersInformation.Count + " users were aware of it\n");
+		}
 
-
-
+		private UserConnectedRequestBody GetInitialUserData(int userId)
+		{
+			var random = new Random();
+			return new UserConnectedRequestBody()
+			{
+				ExistedPlayersInformation = _userManager.GetExistedUsersInfo(),
+				UserInformation = new UserInfo()
+				{
+					UserIdentifier = userId,
+					Transform = new TransformDatagram()
+					{
+						Position = new Vector3
+						{
+							x = random.Next(1, 10),
+							y = random.Next(1, 10),
+							z = random.Next(1, 10)
+						},
+						Rotation = new Vector4
+						{
+							w = 1,
+							x = 0,
+							y = 0,
+							z = 0
+						}
+					}
+				}
+			};
+		}
 	}
 }

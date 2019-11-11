@@ -47,6 +47,7 @@ public class GameManager : IGameManager
 		CreateUser(userConnectedPayloads.UserInformation);
 		CreateExistedPlayers(userConnectedPayloads.ExistedPlayersInformation);
 		_connectionManager.StartListening(client);
+		_dataUpdateManager.StartListening(client);
 	}
 
 	private void CreateExistedPlayers(UserInfo[] usersInfo)

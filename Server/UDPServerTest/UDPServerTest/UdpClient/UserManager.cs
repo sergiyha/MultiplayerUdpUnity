@@ -20,11 +20,15 @@ namespace UDPServerTest.UdpClient
 			}
 			else
 			{
-				_usersData.Add(payload.UserIdentifier, new UserInfoContainer {/*there must be random*/ EndPoint = endPoint,UsersInfo = new UserInfo()
-				{
-					UserIdentifier = payload.UserIdentifier
+				_usersData.Add(payload.UserIdentifier, new UserInfoContainer
+				{/*there must be random*/
+					EndPoint = endPoint,
+					UsersInfo = new UserInfo()
+					{
+						UserIdentifier = payload.UserIdentifier
 
-				}});
+					}
+				});
 			}
 		}
 
@@ -57,6 +61,17 @@ namespace UDPServerTest.UdpClient
 		public List<UserInfoContainer> GetUsersData()
 		{
 			return _usersData.Values.ToList();
+		}
+
+		public UserInfo[] GetExistedUsersInfo()
+		{
+			var userDataValues = _usersData.Values.ToArray();
+			var arr = new UserInfo[userDataValues.Length];
+			for (var i = 0; i < userDataValues.Length; i++)
+			{
+				arr[i] = userDataValues[i].UsersInfo;
+			}
+			return arr;
 		}
 	}
 

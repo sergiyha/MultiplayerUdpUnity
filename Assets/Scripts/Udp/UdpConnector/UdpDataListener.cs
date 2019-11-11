@@ -41,6 +41,7 @@ namespace Udp.UdpConnector
 				}
 				catch (Exception e)
 				{
+					throw e;
 					Debug.Log("Exception Occurs: " + e + "Listening Continued");
 					ExeListen();
 					break;
