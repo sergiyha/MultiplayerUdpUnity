@@ -6,7 +6,7 @@ using UnityEngine;
 public class MonoTickerManager : MonoBehaviour, ITickableManager
 {
 	private List<Action> _actions = new List<Action>();
-	private float _timeToTick = 1 / 60f;
+	private float _timeToTick = 1 / 30f;
 
 	private void Awake()
 	{
@@ -37,20 +37,11 @@ public class MonoTickerManager : MonoBehaviour, ITickableManager
 	{
 		while (true)
 		{
-			try
-			{
-				for (int i = 0; i < _actions.Count; i++)
-				{
-					_actions[i]?.Invoke();
-				}
-			}
-			catch (Exception e)
-			{
-				Console.WriteLine(e);
-				throw;
-			}
 
-
+			for (int i = 0; i < _actions.Count; i++)
+			{
+				_actions[i]?.Invoke();
+			}
 			yield return new WaitForSeconds(_timeToTick);
 		}
 	}

@@ -72,7 +72,7 @@ namespace UDPServerTest.UdpClient
 						}
 
 					}
-					Thread.Sleep(16);
+					Thread.Sleep(33);
 				}
 				catch (Exception e)
 				{
